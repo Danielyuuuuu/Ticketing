@@ -18,6 +18,8 @@ public class SeatingMap {
     }
 
     public void getAvailableSeats(){
+        System.out.println("row: " + rows);
+        System.out.println("col: " + cols);
         for(int i = 0; i < rows; i++){
             if(i == 0){
                 System.out.print("*");
@@ -43,5 +45,16 @@ public class SeatingMap {
             }
             System.out.println("\n");
         }
+    }
+
+    public Boolean selectSeat(int rowSelected, int colSelected){
+        if (rowSelected < 0 || rowSelected >= rows || colSelected < 0 || colSelected >= cols){
+            return false;
+        }
+        if(seatingMap[rowSelected][colSelected].getIsOccupied()){
+            return false;
+        }
+        seatingMap[rowSelected][colSelected].setIsOccupiedTrue();
+        return true;
     }
 }
