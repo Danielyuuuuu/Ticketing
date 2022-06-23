@@ -9,11 +9,6 @@ public class TicketOffice {
     private static String input;
 
     public static void main(String[] args){
-//        Scanner scanner = new Scanner(System.in);
-//        MovieList movieList = new MovieList();
-//        State currentState = State.INITIAL_STATE;
-//        Movie currentSelectedMovie = null;
-//        String input;
 
         movieList.addMovie(new Movie("Iron Man", 120), new SeatingMap(5, 5));
         movieList.addMovie(new Movie("Avengers", 130), new SeatingMap(4, 6));
@@ -39,7 +34,8 @@ public class TicketOffice {
         System.out.println("Please select the following options (Enter option 1 or 2): \n1. Reset the movie seating. \n2. Get the movie listing.");
         input = scanner.nextLine().trim();
         if(input.equals("1")){
-            System.out.println("Resetting the movie seating");
+            movieList.resetMovieSeating();
+            System.out.println("The movie seating has been reset");
         }
         else if(input.equals("2")){
             currentState = State.SELECT_MOVIE;
@@ -59,7 +55,7 @@ public class TicketOffice {
         }
         Boolean isSuccessful = false;
         for(Movie movie: movieList.getAllMovies()){
-            if(input.equals(movie.getName())){
+            if(input.equalsIgnoreCase(movie.getName())){
                 currentSelectedMovie = movie;
                 currentState = State.SELECT_SEAT;
                 isSuccessful = true;
@@ -72,7 +68,7 @@ public class TicketOffice {
     }
 
     private static void handleSelectSeatState(){
-        System.out.println("The movie seating map (A means available, / means occupied).");
+        System.out.println("The seating map for the movie \"" + currentSelectedMovie + "\" (A means available, / means occupied).");
         movieList.getSeatingMap(currentSelectedMovie).getAvailableSeats();
         System.out.println("Please select your seat by entering the row number:");
         int rowSelected = Integer.parseInt(scanner.nextLine());

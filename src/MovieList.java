@@ -25,4 +25,10 @@ public class MovieList {
     public SeatingMap getSeatingMap(Movie movie){
         return movieList.get(movie);
     }
+
+    public void resetMovieSeating(){
+        for(SeatingMap seatingMap: movieList.values()){
+            seatingMap.resetSeating();
+        }
+    }
 }
