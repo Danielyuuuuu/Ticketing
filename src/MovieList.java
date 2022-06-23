@@ -16,6 +16,12 @@ public class MovieList {
         return movieList.keySet();
     }
 
+    public void printAllMovies(){
+        for(Movie movie: getAllMovies()){
+            System.out.println(movie);
+        }
+    }
+
     public SeatingMap getSeatingMap(Movie movie){
         return movieList.get(movie);
     }

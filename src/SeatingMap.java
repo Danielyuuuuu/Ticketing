@@ -34,7 +34,7 @@ public class SeatingMap {
 
             for(int j = 0; j < cols; j++){
                 if(seatingMap[i][j].getIsOccupied()){
-                    System.out.print("O");
+                    System.out.print("/");
                 }
                 else{
                     System.out.print("A");

@@ -14,4 +14,8 @@ public class Movie {
     public int getDuration(){
         return duration;
     }
+
+    public String toString(){
+        return name;
+    }
 }
