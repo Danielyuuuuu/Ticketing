@@ -18,7 +18,7 @@ public class MovieList {
 
     public void printAllMovies(){
         for(Movie movie: getAllMovies()){
-            System.out.println(movie);
+            System.out.println("* " + movie);
         }
     }
 
