@@ -11,10 +11,12 @@
 
 import java.util.Scanner;
 
+import static java.lang.System.exit;
+
 public class MovieTheatre {
 
-    private static Scanner scanner = new Scanner(System.in);
-    private static MovieList movieList = new MovieList();
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final MovieList movieList = new MovieList();
     private static State currentState = State.INITIAL_STATE;
     private static Movie currentSelectedMovie = null;
     private static String input;
@@ -39,6 +41,11 @@ public class MovieTheatre {
                 case SELECT_SEAT:
                     handleSelectSeatState();
                     break;
+                default:
+                    System.out.println("Incorrect current state!");
+                    exit(1);
+                    break;
+
             }
             System.out.println("---------------------------------------------------");
         }
@@ -69,7 +76,7 @@ public class MovieTheatre {
             currentState = State.INITIAL_STATE;
             return;
         }
-        Boolean isSuccessful = false;
+        boolean isSuccessful = false;
         for(Movie movie: movieList.getAllMovies()){
             if(input.equalsIgnoreCase(movie.getName())){
                 currentSelectedMovie = movie;
