@@ -1,11 +1,21 @@
-import java.util.ArrayList;
+/**
+ * To represent the theatre room in a movie theatre.
+ * Is responsible to keep track of it's seating map.
+ *
+ * @author Yifei Yu
+ */
 
-public class SeatingMap {
+public class TheatreRoom {
+
+    // The seating map of the theatre room
     private Seat[][] seatingMap;
+
+    // Number of rows and columns the theatre room has
     private final int rows;
     private final int cols;
 
-    public SeatingMap(int rows, int cols){
+    // The constructor, to create a theatre room by specifying the number of rows and columns it has
+    public TheatreRoom(int rows, int cols){
         seatingMap = new Seat[rows][cols];
         this.rows = rows;
         this.cols = cols;
@@ -17,7 +27,8 @@ public class SeatingMap {
         }
     }
 
-    public void getAvailableSeats(){
+    // Print out the seating map (A means available, / means occupied)
+    public void getSeatingMap(){
         System.out.println("row: " + rows);
         System.out.println("col: " + cols);
         for(int i = 0; i < rows; i++){
@@ -47,6 +58,8 @@ public class SeatingMap {
         }
     }
 
+    // Handle selecting a seat. Return true if the seat is selected successfully.
+    // Return false if the seat is either occupied or is invalid
     public Boolean selectSeat(int rowSelected, int colSelected){
         if (rowSelected < 0 || rowSelected >= rows || colSelected < 0 || colSelected >= cols){
             return false;
@@ -58,6 +71,7 @@ public class SeatingMap {
         return true;
     }
 
+    // Reset the seating map so that all the seats are available
     public void resetSeating(){
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < cols; j++){

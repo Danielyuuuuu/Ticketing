@@ -1,20 +1,25 @@
-public class Movie {
-    private final String name;
-    private final int duration;
+/**
+ * To represent the movie
+ *
+ * @author Yifei Yu
+ */
 
-    public Movie(String name, int duration){
+public class Movie {
+
+    // The movie name
+    private final String name;
+
+    // The constructor, to create the movie by giving it a name
+    public Movie(String name){
         this.name = name;
-        this.duration = duration;
     }
 
+    // Get the movie name
     public String getName(){
         return name;
     }
 
-    public int getDuration(){
-        return duration;
-    }
-
+    // Override the toString method to return the name of the movie
     public String toString(){
         return name;
     }
