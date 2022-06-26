@@ -22,21 +22,31 @@ public class MovieList {
         movieList.put(movie, theatreRoom);
     }
 
-    // Get all the currently showing movies
-    public Set<Movie> getAllMovies(){
-        return movieList.keySet();
-    }
-
     // Print out all the currently showing movies
     public void printAllMovies(){
-        for(Movie movie: getAllMovies()){
+        for(Movie movie: movieList.keySet()){
             System.out.println("* " + movie);
         }
+    }
+
+    // Find the movie by the movie name
+    public Movie findMovieByName(String name){
+        for(Movie movie: movieList.keySet()){
+            if(name.equalsIgnoreCase(movie.getName())){
+                return movie;
+            }
+        }
+        return null;
     }
 
     // Get the seating map of a movie
     public TheatreRoom getSeatingMap(Movie movie){
         return movieList.get(movie);
+    }
+
+    // To select the seat of a movie
+    public Boolean selectMovieSeat(Movie movie, int rowSelected, int colSelected){
+        return getSeatingMap(movie).selectSeat(rowSelected, colSelected);
     }
 
     // Reset all the currently showing movies' seating map
