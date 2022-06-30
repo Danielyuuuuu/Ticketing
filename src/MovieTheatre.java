@@ -28,6 +28,8 @@ public class MovieTheatre {
     //The currently selected movie
     private static Movie currentSelectedMovie = null;
 
+    private static int numberOfTicketsToPurchase = 0;
+
     // The driver of the movie theatre system
     public static void main(String[] args){
 
@@ -46,6 +48,10 @@ public class MovieTheatre {
                 // The select move state where the user can choose from the available movies
                 case SELECT_MOVIE:
                     handleSelectMovieState();
+                    break;
+                // The select number of tickets state where the user can choose how many tickets the person wants to buy
+                case SELECT_NUMBER_OF_TICKETS:
+                    handleSelectNumberOfTicketsState();
                     break;
                 // The select seat state where the user can choose the seat for the selected movie
                 case SELECT_SEAT:
@@ -98,7 +104,7 @@ public class MovieTheatre {
 
         // Go to the select seat state if the movie is found
         if(currentSelectedMovie != null){
-            currentState = State.SELECT_SEAT;
+            currentState = State.SELECT_NUMBER_OF_TICKETS;
         }
         // Print out the error message if the movie is not found
         else{
@@ -106,27 +112,66 @@ public class MovieTheatre {
         }
     }
 
+    // To handle the select number of tickets state where the user can choose how many tickets the person wants to buy
+    private static void handleSelectNumberOfTicketsState(){
+        // Get the number of tickets the person wants to buy from the command line
+        System.out.println("Please enter the number of tickets that you want to purchase:");
+        numberOfTicketsToPurchase = Integer.parseInt(scanner.nextLine());
+
+        // Print out the error when the value entered is less than 0
+        if(numberOfTicketsToPurchase < 1){
+            System.out.println("Error! The number of tickets to purchase must be greater than 0.");
+        }
+        // Print out the error when the value entered is more than the available seats in the theatre room
+        else if(movieList.getTheatreRoom(currentSelectedMovie).getNumberOfAvailableSeats() < numberOfTicketsToPurchase){
+            System.out.println("Error! This movie does not have enough seats left.");
+        }
+        // Go to the select seat state when the value entered is valid
+        else{
+            currentState = State.SELECT_SEAT;
+        }
+    }
+
     // To handle the select seat state where the user can choose the seat for the selected movie
     private static void handleSelectSeatState(){
         System.out.println("The seating map for the movie \"" + currentSelectedMovie + "\" (A means available, / means occupied).");
-        movieList.getSeatingMap(currentSelectedMovie).getSeatingMap();
+        movieList.getTheatreRoom(currentSelectedMovie).getSeatingMap();
 
-        System.out.println("Please select your seat by entering the row number:");
+        for(int i = 1; i <= numberOfTicketsToPurchase; i++){
+            while(!selectSeat(numberOfTicketsToPurchase == 1, i)){}
+        }
+    }
+
+    // To handle command line input for the seat selection, return true if the seat is selected successfully and false otherwise
+    private static Boolean selectSeat(Boolean onlyOneTicket, int ticketNumber){
+        // Get the seat row number from the command line
+        if(onlyOneTicket){
+            System.out.println("Please select your seat by entering the row number:");
+        }
+        else{
+            System.out.println("Please select ticket number " + ticketNumber + "'s seat by entering the row number:");
+        }
         int rowSelected = Integer.parseInt(scanner.nextLine());
 
-        System.out.println("Please select your seat by entering the column number:");
+        // Get the seat column number from the command line
+        if(onlyOneTicket){
+            System.out.println("Please select your seat by entering the row number:");
+        }
+        else{
+            System.out.println("Please select ticket number " + ticketNumber + "'s seat by entering the column number:");
+        }
         int colSelected = Integer.parseInt(scanner.nextLine());
 
         // Go to the initial state if the movie seat is selected successfully
         if(movieList.selectMovieSeat(currentSelectedMovie, rowSelected, colSelected)){
             System.out.println("Seat (" + rowSelected + ", " + colSelected + ") selected successfully!");
             currentState = State.INITIAL_STATE;
+            return true;
         }
         // Print out the error message if the movie seat entered is either occupied or invalid
         else{
             System.out.println("Error! Seat (" + rowSelected + ", " + colSelected + ") you entered is either occupied or invalid!");
+            return false;
         }
     }
-
-
 }

@@ -14,11 +14,14 @@ public class TheatreRoom {
     private final int rows;
     private final int cols;
 
+    private int numberOfAvailableSeats;
+
     // The constructor, to create a theatre room by specifying the number of rows and columns it has
     public TheatreRoom(int rows, int cols){
         seatingMap = new Seat[rows][cols];
         this.rows = rows;
         this.cols = cols;
+        numberOfAvailableSeats = rows * cols;
 
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < cols; j++){
@@ -68,6 +71,7 @@ public class TheatreRoom {
             return false;
         }
         seatingMap[rowSelected][colSelected].setIsOccupiedTrue();
+        numberOfAvailableSeats--;
         return true;
     }
 
@@ -78,5 +82,10 @@ public class TheatreRoom {
                 seatingMap[i][j].setIsOccupiedFalse();
             }
         }
+        numberOfAvailableSeats = rows * cols;
+    }
+
+    public int getNumberOfAvailableSeats(){
+        return numberOfAvailableSeats;
     }
 }

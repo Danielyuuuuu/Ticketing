@@ -39,13 +39,13 @@ public class MovieList {
     }
 
     // Get the seating map of a movie
-    public TheatreRoom getSeatingMap(Movie movie){
+    public TheatreRoom getTheatreRoom(Movie movie){
         return movieList.get(movie);
     }
 
     // To select the seat of a movie
     public Boolean selectMovieSeat(Movie movie, int rowSelected, int colSelected){
-        return getSeatingMap(movie).selectSeat(rowSelected, colSelected);
+        return getTheatreRoom(movie).selectSeat(rowSelected, colSelected);
     }
 
     // Reset all the currently showing movies' seating map
