@@ -151,7 +151,15 @@ public class MovieTheatre {
         else{
             System.out.println("Please select ticket number " + ticketNumber + "'s seat by entering the row number:");
         }
-        int rowSelected = Integer.parseInt(scanner.nextLine());
+        int rowSelected;
+        try{
+            rowSelected = Integer.parseInt(scanner.nextLine());
+        }
+        catch(Exception e){
+            System.out.println("Error! You must enter a valid integer number!");
+            return false;
+        }
+
 
         // Get the seat column number from the command line
         if(onlyOneTicket){
@@ -160,7 +168,14 @@ public class MovieTheatre {
         else{
             System.out.println("Please select ticket number " + ticketNumber + "'s seat by entering the column number:");
         }
-        int colSelected = Integer.parseInt(scanner.nextLine());
+        int colSelected;
+        try{
+            colSelected = Integer.parseInt(scanner.nextLine());
+        }
+        catch(Exception e){
+            System.out.println("Error! You must enter a valid integer number!");
+            return false;
+        }
 
         // Go to the initial state if the movie seat is selected successfully
         if(movieList.selectMovieSeat(currentSelectedMovie, rowSelected, colSelected)){
