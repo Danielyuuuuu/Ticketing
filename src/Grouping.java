@@ -1,25 +1,42 @@
+/**
+ * To keep track of the grouping for each movie
+ *
+ * @author Yifei Yu
+ */
+
 import java.util.ArrayList;
 
 public class Grouping {
 
-    private ArrayList<ArrayList<SeatPosition>> grouping;
+    // To store a list of groups by the seat position
+    private ArrayList<ArrayList<SeatPosition>> groups;
 
+    // The constructor, to initialize the groups arraylist
     public Grouping(){
-        grouping = new ArrayList<>();
+        groups = new ArrayList<>();
     }
 
-    public void addGrouping(ArrayList<SeatPosition> seatPositions){
-        grouping.add(seatPositions);
+    // To add a group to the groups arraylist
+    public void addGroup(ArrayList<SeatPosition> group){
+        groups.add(group);
     }
 
+    // Override the toString method to return the grouping
     public String toString(){
         String str = "{";
-        for(int i = 0; i < grouping.size(); i++){
+        for(int i = 0; i < groups.size(); i++){
             str = str + "[";
-            for(SeatPosition seatPosition: grouping.get(i)){
-                str = str + seatPosition + " ";
+            ArrayList<SeatPosition> group = groups.get(i);
+            for(int j = 0; j < group.size(); j++){
+                if(j < group.size() - 1){
+                    str = str + group.get(j) + ", ";
+                }
+                else{
+                    str = str + group.get(j);
+                }
             }
-            if(i == grouping.size() - 1){
+
+            if(i == groups.size() - 1){
                 str = str + "]";
             }
             else{

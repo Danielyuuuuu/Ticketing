@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * To represent the theatre room in a movie theatre.
  * Is responsible to keep track of it's seating map.
@@ -8,7 +10,9 @@
 public class TheatreRoom {
 
     // The seating map of the theatre room
-    private Seat[][] seatingMap;
+    private final Seat[][] seatingMap;
+
+    private Grouping grouping;
 
     // Number of rows and columns the theatre room has
     private final int rows;
@@ -22,6 +26,8 @@ public class TheatreRoom {
         this.rows = rows;
         this.cols = cols;
         numberOfAvailableSeats = rows * cols;
+
+        grouping = new Grouping();
 
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < cols; j++){
@@ -59,6 +65,7 @@ public class TheatreRoom {
             }
             System.out.println("\n");
         }
+        System.out.println("Grouping:\n" + grouping);
     }
 
     // Handle selecting a seat. Return true if the seat is selected successfully.
@@ -75,6 +82,10 @@ public class TheatreRoom {
         return true;
     }
 
+    public void addGroup(ArrayList<SeatPosition> group){
+        grouping.addGroup(group);
+    }
+
     // Reset the seating map so that all the seats are available
     public void resetSeating(){
         for(int i = 0; i < rows; i++){
@@ -83,6 +94,8 @@ public class TheatreRoom {
             }
         }
         numberOfAvailableSeats = rows * cols;
+
+        grouping = new Grouping();
     }
 
     public int getNumberOfAvailableSeats(){
