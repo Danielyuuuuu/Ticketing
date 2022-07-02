@@ -144,6 +144,7 @@ public class MovieTheatre {
 
     // To handle command line input for the seat selection, return true if the seat is selected successfully and false otherwise
     private static Boolean selectSeat(Boolean onlyOneTicket, int ticketNumber){
+
         // Get the seat row number from the command line
         if(onlyOneTicket){
             System.out.println("Please select your seat by entering the row number:");
@@ -159,7 +160,6 @@ public class MovieTheatre {
             System.out.println("Error! You must enter a valid integer number!");
             return false;
         }
-
 
         // Get the seat column number from the command line
         if(onlyOneTicket){
