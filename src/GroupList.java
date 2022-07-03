@@ -1,7 +1,13 @@
+/**
+ * To keep track of all the groups
+ *
+ * @author Yifei Yu
+ */
+
 import java.util.ArrayList;
 
 public class GroupList {
-    private ArrayList<Group> groups;
+    private final ArrayList<Group> groups;
 
     // The constructor, to initialize an arraylist of Group
     public GroupList(){
@@ -13,16 +19,16 @@ public class GroupList {
         groups.add(group);
     }
 
-    // Override the toString method to return the grouping
+    // Override the toString method to return the groupings
     public String toString(){
-        String str = "{";
+        StringBuilder str = new StringBuilder("{");
         for(int i = 0; i < groups.size(); i++){
-            str = str + groups.get(i);
+            str.append(groups.get(i));
             if(i < groups.size() - 1){
-                str = str + ", ";
+                str.append(", ");
             }
         }
-        str = str + "}";
-        return str;
+        str.append("}");
+        return str.toString();
     }
 }

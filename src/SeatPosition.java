@@ -6,8 +6,8 @@
 
 public class SeatPosition {
     // The row and column position of the seat
-    private int row;
-    private int col;
+    private final int row;
+    private final int col;
 
     // The constructor, to create a seat position
     public SeatPosition(int row, int col){
@@ -17,7 +17,6 @@ public class SeatPosition {
 
     // Override the toString method to return the row and column of the seat position
     public String toString(){
-        String str = "(" + row + ", " + col + ")";
-        return str;
+        return "(" + row + ", " + col + ")";
     }
 }

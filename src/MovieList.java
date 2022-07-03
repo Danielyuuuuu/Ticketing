@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class MovieList {
 
     // A map between the movie and the theatre room
-    private HashMap<Movie, TheatreRoom> movieList;
+    private final HashMap<Movie, TheatreRoom> movieList;
 
     // The constructor, to create the movie list
     public MovieList(){

@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 /**
  * To represent the theatre room in a movie theatre.
  * Is responsible to keep track of it's seating map.
@@ -39,8 +37,6 @@ public class TheatreRoom {
 
     // Print out the seating map (A means available, / means occupied)
     public void getSeatingMap(){
-        System.out.println("row: " + rows);
-        System.out.println("col: " + cols);
         for(int i = 0; i < rows; i++){
             if(i == 0){
                 System.out.print("*");

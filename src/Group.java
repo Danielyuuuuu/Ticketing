@@ -1,5 +1,5 @@
 /**
- * To keep track of the grouping for each movie
+ * To represent a group
  *
  * @author Yifei Yu
  */
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Group {
 
     // To store a list of seat positions of a group
-    private ArrayList<SeatPosition> group;
+    private final ArrayList<SeatPosition> group;
 
     // The constructor, to initialize the group arraylist
     public Group(){
@@ -23,16 +23,17 @@ public class Group {
 
     // Override the toString method to return the grouping
     public String toString(){
-        String str = "[";
+        StringBuilder str = new StringBuilder("[");
         for(int i = 0; i < group.size(); i++){
             if(i < group.size() - 1){
-                str = str + group.get(i) + ", ";
+                str.append(group.get(i));
+                str.append(", ");
             }
             else{
-                str = str + group.get(i);
+                str.append(group.get(i));
             }
         }
-        str = str + "]";
-        return str;
+        str.append("]");
+        return str.toString();
     }
 }
