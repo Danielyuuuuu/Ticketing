@@ -25,9 +25,10 @@ public class MovieTheatre {
     // The current state of the program
     private static State currentState = State.INITIAL_STATE;
 
-    //The currently selected movie
+    // The currently selected movie
     private static Movie currentSelectedMovie = null;
 
+    // The number of tickets to purchase in one transaction
     private static int numberOfTicketsToPurchase = 0;
 
     // The driver of the movie theatre system
@@ -136,7 +137,7 @@ public class MovieTheatre {
     private static void handleSelectSeatState(){
         System.out.println("The seating map for the movie \"" + currentSelectedMovie + "\" (A means available, / means occupied).");
         TheatreRoom currentSelectedTheatreRoom = movieList.getTheatreRoom(currentSelectedMovie);
-        currentSelectedTheatreRoom.getSeatingMap();
+        System.out.println(currentSelectedTheatreRoom);
 
         Group group = new Group();
 

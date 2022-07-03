@@ -35,36 +35,6 @@ public class TheatreRoom {
         }
     }
 
-    // Print out the seating map (A means available, / means occupied)
-    public void getSeatingMap(){
-        for(int i = 0; i < rows; i++){
-            if(i == 0){
-                System.out.print("*");
-                System.out.print("\t");
-                for (int c = 0; c < cols; c++){
-                    System.out.print(c);
-                    System.out.print("\t");
-                }
-                System.out.println("\n");
-            }
-
-            System.out.print(i);
-            System.out.print("\t");
-
-            for(int j = 0; j < cols; j++){
-                if(seatingMap[i][j].getIsOccupied()){
-                    System.out.print("/");
-                }
-                else{
-                    System.out.print("A");
-                }
-                System.out.print("\t");
-            }
-            System.out.println("\n");
-        }
-        System.out.println("Groupings:\n" + groupList);
-    }
-
     // Handle selecting a seat. Return true if the seat is selected successfully.
     // Return false if the seat is either occupied or is invalid
     public Boolean selectSeat(int rowSelected, int colSelected){
@@ -79,6 +49,7 @@ public class TheatreRoom {
         return true;
     }
 
+    // Add a group to the group list
     public void addGroup(Group group){
         groupList.addGroup(group);
     }
@@ -95,7 +66,38 @@ public class TheatreRoom {
         groupList = new GroupList();
     }
 
+    // Get the number of available seats in a theatre room
     public int getNumberOfAvailableSeats(){
         return numberOfAvailableSeats;
+    }
+
+    // Override the toString method to return the seating map and the groupings
+    public String toString(){
+        StringBuilder str = new StringBuilder();
+        for(int i = 0; i < rows; i++){
+            if(i == 0){
+                str.append("*\t");
+                for (int c = 0; c < cols; c++){
+                    str.append(c);
+                    str.append("\t");
+                }
+                str.append("\n");
+            }
+                str.append(i);
+                str.append("\t");
+            for(int j = 0; j < cols; j++){
+                if(seatingMap[i][j].getIsOccupied()){
+                    str.append("/");
+                }
+                else{
+                    str.append("A");
+                }
+                str.append("\t");
+            }
+            str.append("\n");
+        }
+        str.append("Groupings:\n");
+        str.append(groupList);
+        return str.toString();
     }
 }
