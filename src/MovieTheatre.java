@@ -8,7 +8,6 @@
  * @author Yifei Yu
  */
 
-import java.util.ArrayList;
 import java.util.Scanner;
 import static java.lang.System.exit;
 
@@ -139,17 +138,21 @@ public class MovieTheatre {
         TheatreRoom currentSelectedTheatreRoom = movieList.getTheatreRoom(currentSelectedMovie);
         currentSelectedTheatreRoom.getSeatingMap();
 
-        ArrayList<SeatPosition> group = new ArrayList<>();
+        Group group = new Group();
 
         for(int i = 1; i <= numberOfTicketsToPurchase; i++){
-            while(!selectSeat(numberOfTicketsToPurchase == 1, i, group)){}
+            while(true){
+                if(selectSeat(numberOfTicketsToPurchase == 1, i, group)){
+                    break;
+                }
+            }
         }
 
         currentSelectedTheatreRoom.addGroup(group);
     }
 
     // To handle command line input for the seat selection, return true if the seat is selected successfully and false otherwise
-    private static Boolean selectSeat(Boolean onlyOneTicket, int ticketNumber, ArrayList<SeatPosition> group){
+    private static Boolean selectSeat(Boolean onlyOneTicket, int ticketNumber, Group group){
 
         // Get the seat row number from the command line
         if(onlyOneTicket){
@@ -187,7 +190,7 @@ public class MovieTheatre {
         if(movieList.selectMovieSeat(currentSelectedMovie, rowSelected, colSelected)){
             System.out.println("Seat (" + rowSelected + ", " + colSelected + ") selected successfully!");
             currentState = State.INITIAL_STATE;
-            group.add(new SeatPosition(rowSelected, colSelected));
+            group.addNewSeatPosition(new SeatPosition(rowSelected, colSelected));
             return true;
         }
         // Print out the error message if the movie seat entered is either occupied or invalid

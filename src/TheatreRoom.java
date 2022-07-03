@@ -12,7 +12,8 @@ public class TheatreRoom {
     // The seating map of the theatre room
     private final Seat[][] seatingMap;
 
-    private Grouping grouping;
+    // The grouping
+    private GroupList groupList;
 
     // Number of rows and columns the theatre room has
     private final int rows;
@@ -27,7 +28,7 @@ public class TheatreRoom {
         this.cols = cols;
         numberOfAvailableSeats = rows * cols;
 
-        grouping = new Grouping();
+        groupList = new GroupList();
 
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < cols; j++){
@@ -65,7 +66,7 @@ public class TheatreRoom {
             }
             System.out.println("\n");
         }
-        System.out.println("Grouping:\n" + grouping);
+        System.out.println("Groupings:\n" + groupList);
     }
 
     // Handle selecting a seat. Return true if the seat is selected successfully.
@@ -82,8 +83,8 @@ public class TheatreRoom {
         return true;
     }
 
-    public void addGroup(ArrayList<SeatPosition> group){
-        grouping.addGroup(group);
+    public void addGroup(Group group){
+        groupList.addGroup(group);
     }
 
     // Reset the seating map so that all the seats are available
@@ -95,7 +96,7 @@ public class TheatreRoom {
         }
         numberOfAvailableSeats = rows * cols;
 
-        grouping = new Grouping();
+        groupList = new GroupList();
     }
 
     public int getNumberOfAvailableSeats(){
