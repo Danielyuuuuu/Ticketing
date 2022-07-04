@@ -17,6 +17,7 @@ public class TheatreRoom {
     private final int rows;
     private final int cols;
 
+    // The number of available seats left for the theatre room
     private int numberOfAvailableSeats;
 
     // The constructor, to create a theatre room by specifying the number of rows and columns it has
@@ -25,7 +26,6 @@ public class TheatreRoom {
         this.rows = rows;
         this.cols = cols;
         numberOfAvailableSeats = rows * cols;
-
         groupList = new GroupList();
 
         for(int i = 0; i < rows; i++){
@@ -54,15 +54,14 @@ public class TheatreRoom {
         groupList.addGroup(group);
     }
 
-    // Reset the seating map so that all the seats are available
-    public void resetSeating(){
+    // Reset the seating map and the grouping
+    public void resetSeatingAndGrouping(){
         for(int i = 0; i < rows; i++){
             for(int j = 0; j < cols; j++){
                 seatingMap[i][j].setIsOccupiedFalse();
             }
         }
         numberOfAvailableSeats = rows * cols;
-
         groupList = new GroupList();
     }
 

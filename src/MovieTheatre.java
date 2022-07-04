@@ -3,7 +3,8 @@
  *
  * It is responsible for:
  *  - creating all the components of the system;
- *  - handling command line inputs;
+ *  - handling user inputs in the command line;
+ *  - keep track of the current state of the program;
  *
  * @author Yifei Yu
  */
@@ -19,19 +20,19 @@ public class MovieTheatre {
     // To store the user input temporarily
     private static String input;
 
-    // The currently showing movie list
+    // The movies that are currently showing in the movie theatre
     private static final MovieList movieList = new MovieList();
 
     // The current state of the program
     private static State currentState = State.INITIAL_STATE;
 
     // The currently selected movie
-    private static Movie currentSelectedMovie = null;
+    private static Movie currentlySelectedMovie = null;
 
     // The number of tickets to purchase in one transaction
     private static int numberOfTicketsToPurchase = 0;
 
-    // The driver of the movie theatre system
+    // The driver of the movie theatre ticketing system
     public static void main(String[] args){
 
         // Initialize the movie list with three movies
@@ -42,7 +43,7 @@ public class MovieTheatre {
         // Continuously ask for the command line input and perform actions according to that
         while(true){
             switch(currentState){
-                // The initial state where the user can choose between resetting the movie seating and getting the movie listing
+                // The initial state where the user can choose between getting the movie listing and resetting the seating map and groupings
                 case INITIAL_STATE:
                     handleInitialState();
                     break;
@@ -50,11 +51,11 @@ public class MovieTheatre {
                 case SELECT_MOVIE:
                     handleSelectMovieState();
                     break;
-                // The select number of tickets state where the user can choose how many tickets the person wants to buy
+                // The select number of tickets state where the user can choose how many tickets to purchase
                 case SELECT_NUMBER_OF_TICKETS:
                     handleSelectNumberOfTicketsState();
                     break;
-                // The select seat state where the user can choose the seat for the selected movie
+                // The select seat state where the user can choose seat(s) for the selected movie
                 case SELECT_SEAT:
                     handleSelectSeatState();
                     break;
@@ -68,9 +69,9 @@ public class MovieTheatre {
         }
     }
 
-    // To handle the initial state where the user can choose between resetting the movie seating and getting the movie listing
+    // To handle the initial state where the user can choose between getting the movie listing and resetting the seating map and groupings
     private static void handleInitialState(){
-        System.out.println("Welcome to the movie theater! Please select the following options (Enter option 1 or 2): \n1. Get the movie listing. \n2. Reset the seating map for all movies.");
+        System.out.println("Welcome to the movie theater! Please select from the following options (Enter option 1 or 2): \n1. Get the movie listing. \n2. Reset the seating map and groupings for all movies.");
         input = scanner.nextLine().trim();
 
         // Get the movie listing
@@ -80,7 +81,7 @@ public class MovieTheatre {
         }
         // Reset the movie seating
         else if(input.equals("2")){
-            movieList.resetMovieSeating();
+            movieList.resetMovieSeatingAndGrouping();
             System.out.println("Option 2 has been selected. The movie seating map has been reset.");
         }
         // Invalid option selected
@@ -92,7 +93,7 @@ public class MovieTheatre {
     // To handle the select move state where the user can choose from the available movies
     private static void handleSelectMovieState(){
         System.out.println("Please select from the following movies by entering the movie name (or enter \"0\" to go back):");
-        movieList.printAllMovies();
+        System.out.println(movieList);
         input = scanner.nextLine().trim();
 
         // Go back to the initial state
@@ -103,12 +104,12 @@ public class MovieTheatre {
         }
 
         // Find the movie by the movie name
-        currentSelectedMovie = movieList.findMovieByName(input);
+        currentlySelectedMovie = movieList.findMovieByName(input);
 
         // Go to the select seat state if the movie is found
-        if(currentSelectedMovie != null){
+        if(currentlySelectedMovie != null){
             currentState = State.SELECT_NUMBER_OF_TICKETS;
-            System.out.println("The movie \"" + currentSelectedMovie + "\" has been selected.");
+            System.out.println("The movie \"" + currentlySelectedMovie + "\" has been selected.");
         }
         // Print out the error message if the movie is not found
         else{
@@ -116,10 +117,10 @@ public class MovieTheatre {
         }
     }
 
-    // To handle the select number of tickets state where the user can choose how many tickets the person wants to buy
+    // To handle the select number of tickets state where the user can choose how many tickets to purchase
     private static void handleSelectNumberOfTicketsState(){
         // Get the number of tickets the person wants to buy from the command line
-        System.out.println("Please enter the number of tickets that you want to purchase for the movie \"" + currentSelectedMovie + "\":");
+        System.out.println("Please enter the number of tickets that you want to purchase for the movie \"" + currentlySelectedMovie + "\":");
         numberOfTicketsToPurchase = Integer.parseInt(scanner.nextLine());
 
         // Print out the error when the value entered is less than 0
@@ -127,7 +128,7 @@ public class MovieTheatre {
             System.out.println("Error! The number of tickets to purchase must be greater than 0.");
         }
         // Print out the error when the value entered is more than the available seats in the theatre room
-        else if(movieList.getTheatreRoom(currentSelectedMovie).getNumberOfAvailableSeats() < numberOfTicketsToPurchase){
+        else if(movieList.getTheatreRoom(currentlySelectedMovie).getNumberOfAvailableSeats() < numberOfTicketsToPurchase){
             System.out.println("Error! This movie does not have enough seats left.");
         }
         // Go to the select seat state when the value entered is valid
@@ -136,14 +137,18 @@ public class MovieTheatre {
         }
     }
 
-    // To handle the select seat state where the user can choose the seat for the selected movie
+    // To handle the select seat state where the user can choose seat(s) for the selected movie
     private static void handleSelectSeatState(){
-        System.out.println("The seating map for the movie \"" + currentSelectedMovie + "\" (A means available, / means occupied).");
-        TheatreRoom currentSelectedTheatreRoom = movieList.getTheatreRoom(currentSelectedMovie);
+        System.out.println("The seating map for the movie \"" + currentlySelectedMovie + "\" (A means available, / means occupied).");
+
+        // Get the theatre room and print out the seating map and groupings
+        TheatreRoom currentSelectedTheatreRoom = movieList.getTheatreRoom(currentlySelectedMovie);
         System.out.println(currentSelectedTheatreRoom);
 
+        // Create a new group for this transaction
         Group group = new Group();
 
+        // Handle selecting seat for each ticket
         for(int i = 1; i <= numberOfTicketsToPurchase; i++){
             while(true){
                 if(selectSeat(numberOfTicketsToPurchase == 1, i, group)){
@@ -152,7 +157,9 @@ public class MovieTheatre {
             }
         }
 
+        // Add the new group to the group list
         currentSelectedTheatreRoom.addGroup(group);
+        System.out.println("Thank you for purchasing the ticket! Going back to the initial state.");
     }
 
     // To handle command line input for the seat selection, return true if the seat is selected successfully and false otherwise
@@ -191,10 +198,11 @@ public class MovieTheatre {
         }
 
         // Go to the initial state if the movie seat is selected successfully
-        if(movieList.selectMovieSeat(currentSelectedMovie, rowSelected, colSelected)){
+        if(movieList.selectMovieSeat(currentlySelectedMovie, rowSelected, colSelected)){
             System.out.println("Seat (" + rowSelected + ", " + colSelected + ") selected successfully!");
             currentState = State.INITIAL_STATE;
             group.addNewSeatPosition(new SeatPosition(rowSelected, colSelected));
+
             return true;
         }
         // Print out the error message if the movie seat entered is either occupied or invalid

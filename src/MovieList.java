@@ -11,21 +11,14 @@ public class MovieList {
     // A map between the movie and the theatre room
     private final HashMap<Movie, TheatreRoom> movieList;
 
-    // The constructor, to create the movie list
+    // The constructor, to initialize the movie list
     public MovieList(){
         movieList = new HashMap<>();
     }
 
-    // To add a movie to the movie list
+    // To add a movie, and it's corresponding theatre room to the movie list
     public void addMovie(Movie movie, TheatreRoom theatreRoom){
         movieList.put(movie, theatreRoom);
-    }
-
-    // Print out all the currently showing movies
-    public void printAllMovies(){
-        for(Movie movie: movieList.keySet()){
-            System.out.println("* " + movie);
-        }
     }
 
     // Find the movie by the movie name
@@ -48,10 +41,21 @@ public class MovieList {
         return getTheatreRoom(movie).selectSeat(rowSelected, colSelected);
     }
 
-    // Reset all the currently showing movies' seating map
-    public void resetMovieSeating(){
+    // Reset all the currently showing movies' seating map and grouping
+    public void resetMovieSeatingAndGrouping(){
         for(TheatreRoom theatreRoom : movieList.values()){
-            theatreRoom.resetSeating();
+            theatreRoom.resetSeatingAndGrouping();
         }
+    }
+
+    // Override the toString method to print out all the currently showing movies
+    public String toString(){
+        StringBuilder str = new StringBuilder();
+        for(Movie movie: movieList.keySet()){
+            str.append("* ");
+            str.append(movie);
+            str.append("\n");
+        }
+        return str.toString().trim();
     }
 }
